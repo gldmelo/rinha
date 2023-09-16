@@ -1,3 +1,35 @@
+# Apresentação
+
+Olá! Segue a minha implementação em C# (.NET 7) de um interpretador da Árvore Sintática Abstrata (AST) da linguagem Rinha.
+
+Busquei implementar da forma mais simples e direta sem explorar maiores recursos disponíveis da linguagem C# (como classes) por uma questão puramente de performance.
+
+O container da aplicação foi montado utilizando a versão do Runtime 7.0, com o Alpine Linux, o que resultou em uma imagem com apenas 85MB.
+
+A stack padrão do runtime 7.0 do .NET além de ocupar mais espaço em disco (190MB) utiliza uma versão do Debian que, no momento em que fiz o test, informava no Docker existem 27 vulnerabilidades em pacotes presentes nesta distro.
+
+
+
+## Como testar
+
+Utilize o comando abaixo para gerar a imagem Docker:
+
+```docker build -t rinha-compiladores-csharp -f Dockerfile .```
+
+Utilize o comando docker run como mostrado a seguir para criar e rodar o container. O parâmetro ```--rm``` exclui o container ao final da execução. As quatro AST disponibilizadas de exemplo foram incluídas por padrão dentro do Container de modo a facilitar os testes. Basta informar o nome do arquivo json durante a chamada.
+
+```docker run -it --rm rinha-compiladores-csharp fib.json```
+
+Uma mensagem no Console indicará o output do programa e o tempo de execução.
+
+```
+55
+Tempo de Execução: 00:00:00.1359635
+```
+
+### vvvv post original abaixo: vvvv 
+
+
 <div align="center">
 
 ![banner]
