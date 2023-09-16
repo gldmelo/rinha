@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "RinhaCompiladores": {
+      "commandName": "Project",
+      "commandLineArgs": "combination.json"
+    }
+  }
+}

@@ -5,15 +5,12 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{0D2A1116-5F3C-4B13-9954-5611FDAD3B41}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RinhaCompiladores", "src\RinhaCompiladores\RinhaCompiladores.csproj", "{EFC4BEDC-3618-4F4E-BBBE-8191FAB64D39}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RinhaCompiladores", "src\RinhaCompiladores\RinhaCompiladores.csproj", "{EFC4BEDC-3618-4F4E-BBBE-8191FAB64D39}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{EFC4BEDC-3618-4F4E-BBBE-8191FAB64D39}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -21,7 +18,13 @@ Global
 		{EFC4BEDC-3618-4F4E-BBBE-8191FAB64D39}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EFC4BEDC-3618-4F4E-BBBE-8191FAB64D39}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{EFC4BEDC-3618-4F4E-BBBE-8191FAB64D39} = {0D2A1116-5F3C-4B13-9954-5611FDAD3B41}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BFF49E4F-8BD0-471D-8909-A3369C691A81}
 	EndGlobalSection
 EndGlobal
