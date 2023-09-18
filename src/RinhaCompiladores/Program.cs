@@ -8,7 +8,7 @@ public static partial class Program
 		Stopwatch sw = Stopwatch.StartNew();
 
 		// Carregar o arquivo do desafio da Rinha
-		var jsonFile = File.ReadAllText("files/" + args[0]);
+		var jsonFile = File.ReadAllText(args[0]);
 		
 		dynamic jsonObject = JObject.Parse(jsonFile);
 		Execute(jsonObject.expression, new Dictionary<string, object>());
@@ -62,6 +62,10 @@ public static partial class Program
 			case "Int":
 			case "Str": return term.value.Value;
 
+			case "First":
+				var tupleFirst = Execute(term.value, memory);
+				return tupleFirst.Item1;
+
 			case "Function":
 				return term; // declaration only
 
@@ -78,8 +82,27 @@ public static partial class Program
 
 			case "Print":
 				var printTerm = Execute(term.value, memory);
-				Console.WriteLine(printTerm.ToString());
+				
+				if (printTerm is Tuple<object, object>)
+				{
+					var tupleTerm = (Tuple<object, object>)printTerm;
+					Console.WriteLine($"({tupleTerm.Item1}, {tupleTerm.Item2})");
+				}
+				else
+				{
+					Console.WriteLine(printTerm.ToString());
+				}
+				
 				return printTerm; // allows for print(print("some string"))
+
+			case "Second":
+				var tupleSecond = Execute(term.value, memory);
+				return tupleSecond.Item2;
+
+			case "Tuple":
+				var firstTerm = Execute(term.first, memory);
+				var secondTerm = Execute(term.second, memory);
+				return new Tuple<object, object>(firstTerm, secondTerm);
 
 			case "Var": 
 				return memory[term.text.Value];

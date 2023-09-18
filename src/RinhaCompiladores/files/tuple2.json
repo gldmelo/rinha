@@ -1,0 +1,83 @@
+{
+    "expression": {
+        "kind": "Let",
+        "location": {
+            "end": 50,
+            "filename": "tuple2.rinha",
+            "start": 0
+        },
+        "name": {
+            "location": {
+                "end": 9,
+                "filename": "tuple2.rinha",
+                "start": 4
+            },
+            "text": "tuple"
+        },
+        "next": {
+            "kind": "Print",
+            "location": {
+                "end": 50,
+                "filename": "tuple2.rinha",
+                "start": 38
+            },
+            "value": {
+                "kind": "Var",
+                "location": {
+                    "end": 49,
+                    "filename": "tuple2.rinha",
+                    "start": 44
+                },
+                "text": "tuple"
+            }
+        },
+        "value": {
+            "first": {
+                "kind": "Print",
+                "location": {
+                    "end": 21,
+                    "filename": "tuple2.rinha",
+                    "start": 13
+                },
+                "value": {
+                    "kind": "Int",
+                    "location": {
+                        "end": 20,
+                        "filename": "tuple2.rinha",
+                        "start": 19
+                    },
+                    "value": 1
+                }
+            },
+            "kind": "Tuple",
+            "location": {
+                "end": 32,
+                "filename": "tuple2.rinha",
+                "start": 12
+            },
+            "second": {
+                "kind": "Print",
+                "location": {
+                    "end": 31,
+                    "filename": "tuple2.rinha",
+                    "start": 23
+                },
+                "value": {
+                    "kind": "Int",
+                    "location": {
+                        "end": 30,
+                        "filename": "tuple2.rinha",
+                        "start": 29
+                    },
+                    "value": 2
+                }
+            }
+        }
+    },
+    "location": {
+        "end": 50,
+        "filename": "tuple2.rinha",
+        "start": 0
+    },
+    "name": "tuple2.rinha"
+}

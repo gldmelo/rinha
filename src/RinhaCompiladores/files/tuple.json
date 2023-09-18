@@ -1,0 +1,67 @@
+{
+    "expression": {
+        "kind": "Let",
+        "location": {
+            "end": 33,
+            "filename": "teste.rinha",
+            "start": 0
+        },
+        "name": {
+            "location": {
+                "end": 8,
+                "filename": "teste.rinha",
+                "start": 4
+            },
+            "text": "tupl"
+        },
+        "next": {
+            "kind": "Print",
+            "location": {
+                "end": 33,
+                "filename": "teste.rinha",
+                "start": 22
+            },
+            "value": {
+                "kind": "Var",
+                "location": {
+                    "end": 32,
+                    "filename": "teste.rinha",
+                    "start": 28
+                },
+                "text": "tupl"
+            }
+        },
+        "value": {
+            "first": {
+                "kind": "Int",
+                "location": {
+                    "end": 13,
+                    "filename": "teste.rinha",
+                    "start": 12
+                },
+                "value": 1
+            },
+            "kind": "Tuple",
+            "location": {
+                "end": 17,
+                "filename": "teste.rinha",
+                "start": 11
+            },
+            "second": {
+                "kind": "Int",
+                "location": {
+                    "end": 16,
+                    "filename": "teste.rinha",
+                    "start": 15
+                },
+                "value": 2
+            }
+        }
+    },
+    "location": {
+        "end": 33,
+        "filename": "teste.rinha",
+        "start": 0
+    },
+    "name": "teste.rinha"
+}
