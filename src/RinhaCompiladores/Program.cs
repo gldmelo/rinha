@@ -3,6 +3,8 @@ using Newtonsoft.Json.Linq;
 
 public static partial class Program
 {
+	public static Dictionary<string, object> FunctionCache = new Dictionary<string, object>();
+
 	static void Main(string[] args)
 	{
 		Stopwatch sw = Stopwatch.StartNew();
@@ -48,16 +50,28 @@ public static partial class Program
 			case "Call":
 				var callee = Execute(term.callee, memory);
 
+				var cachedFuncionParameter = new List<object>();
 				var functionScope = CreateFunctionScope(memory);
 				for (int i = 0; i < callee.parameters.Count; i++)
 				{
 					var paramName = callee.parameters[i].text.Value;
 					var paramValue = Execute(term.arguments[i], memory);
-					
+					cachedFuncionParameter.Add(paramValue);
+
 					SetVariableValue(functionScope, paramName, paramValue);
 				}
-				
-				return Execute(callee.value, functionScope);
+
+				#region Cache do resultado da função usando o conceito de Dynamic Programming (Programação Dinâmica)
+				var cacheKey = $"{term.callee.text.Value}|{string.Join(",", cachedFuncionParameter.ToArray())}";
+				var cachedFuncion = FunctionCache.ContainsKey(cacheKey) ? FunctionCache[cacheKey] : null;
+				if (cachedFuncion != null)
+					return cachedFuncion;
+
+				var functionResult = Execute(callee.value, functionScope);
+				FunctionCache[cacheKey] = functionResult;
+				#endregion
+
+				return functionResult;
 
 			case "Int":
 			case "Str": return term.value.Value;
@@ -90,7 +104,13 @@ public static partial class Program
 				}
 				else
 				{
-					Console.WriteLine(printTerm.ToString());
+					if (printTerm is JToken)
+					{
+						if (printTerm.kind.Value == "Function")
+							Console.WriteLine("<#closure>");
+					}
+					else
+						Console.WriteLine(printTerm.ToString());
 				}
 				
 				return printTerm; // allows for print(print("some string"))
@@ -131,5 +151,4 @@ public static partial class Program
 		else
 			memory[paramName] = paramValue;
 	}
-
 }

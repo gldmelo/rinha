@@ -21,6 +21,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="files\closure.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="files\combination.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
