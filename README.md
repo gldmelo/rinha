@@ -18,13 +18,13 @@ Utilize o comando abaixo para gerar a imagem Docker:
 
 Utilize o comando docker run como mostrado a seguir para criar e rodar o container. O parâmetro ```--rm``` exclui o container ao final da execução. As quatro AST disponibilizadas de exemplo foram incluídas por padrão dentro do Container de modo a facilitar os testes. Basta informar o nome do arquivo json durante a chamada.
 
-```docker run -it --rm rinha-compiladores-csharp fib.json```
+```docker run -it --rm rinha-compiladores-csharp files/fib.json```
 
-Uma mensagem no Console indicará o output do programa e o tempo de execução.
+Uma mensagem no Console indicará o output do programa e o tempo de execução. Abaixo o output de execução do algoritmo que calcula a sequencia de Fibonacci para N=50 usando uma técnica de programação dinâmica para otimização do tempo de execução. Com a técnica o tempo de execução permaneceu linear no hardware de teste para N=10 e N=50.
 
 ```
-55
-Tempo de Execução: 00:00:00.1359635
+12586269025
+Tempo de Execução: 00:00:00.1370608
 ```
 
 ### vvvv post original abaixo: vvvv 
