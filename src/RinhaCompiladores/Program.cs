@@ -10,7 +10,8 @@ public static partial class Program
 		Stopwatch sw = Stopwatch.StartNew();
 
 		// Carregar o arquivo do desafio da Rinha
-		var jsonFile = File.ReadAllText(args[0]);
+		var programFilename = args.Length > 0 ? args[0] : "/var/rinha/source.rinha.json";
+		var jsonFile = File.ReadAllText(programFilename);
 		
 		dynamic jsonObject = JObject.Parse(jsonFile);
 		Execute(jsonObject.expression, new Dictionary<string, object>());

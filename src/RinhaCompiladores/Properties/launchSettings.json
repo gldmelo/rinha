@@ -3,6 +3,9 @@
     "RinhaCompiladores": {
       "commandName": "Project",
       "commandLineArgs": "files/closure.json"
+    },
+    "Sem Parametros": {
+      "commandName": "Project"
     }
   }
 }
