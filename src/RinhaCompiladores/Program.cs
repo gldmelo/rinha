@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 public static partial class Program
@@ -13,7 +14,9 @@ public static partial class Program
 		var programFilename = args.Length > 0 ? args[0] : "/var/rinha/source.rinha.json";
 		var jsonFile = File.ReadAllText(programFilename);
 		
-		dynamic jsonObject = JObject.Parse(jsonFile);
+		var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All, MaxDepth = 256 };
+
+		dynamic jsonObject = JsonConvert.DeserializeObject<JObject>(jsonFile, settings); //JObject.Parse(jsonFile);
 		Execute(jsonObject.expression, new Dictionary<string, object>());
 		sw.Stop();
 		Console.WriteLine($"Tempo de Execução: {sw.Elapsed}");
