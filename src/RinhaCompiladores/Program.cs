@@ -14,7 +14,7 @@ public static partial class Program
 		var programFilename = args.Length > 0 ? args[0] : "/var/rinha/source.rinha.json";
 		var jsonFile = File.ReadAllText(programFilename);
 		
-		var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All, MaxDepth = 256 };
+		var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All, MaxDepth = 8096 };
 
 		dynamic jsonObject = JsonConvert.DeserializeObject<JObject>(jsonFile, settings); //JObject.Parse(jsonFile);
 		Execute(jsonObject.expression, new Dictionary<string, object>());
@@ -38,7 +38,7 @@ public static partial class Program
 					case "Div": return lhs / rhs;
 					case "Rem": return lhs % rhs;
 
-					case "Eq": return ((object)lhs).ToString().Equals(((object)rhs).ToString());
+					case "Eq": return lhs == rhs;
 					case "Neq": return lhs != rhs;
 					
 					case "Lt": return lhs < rhs;
@@ -66,17 +66,23 @@ public static partial class Program
 				}
 
 				#region Cache do resultado da função usando o conceito de Dynamic Programming (Programação Dinâmica)
-				var cacheKey = $"{term.callee.text.Value}|{string.Join(",", cachedFuncionParameter.ToArray())}";
-				var cachedFuncion = FunctionCache.ContainsKey(cacheKey) ? FunctionCache[cacheKey] : null;
-				if (cachedFuncion != null)
-					return cachedFuncion;
+				// Cache é desativado para funções anônimas
+				//if (term.callee.text != null)
+				//{
+				//	var cacheKey = $"{term.callee.text.Value}|{string.Join(",", cachedFuncionParameter.ToArray())}";
+				//	var cachedFuncion = FunctionCache.ContainsKey(cacheKey) ? FunctionCache[cacheKey] : null;
+				//	if (cachedFuncion != null)
+				//		return cachedFuncion;
 
-				var functionResult = Execute(callee.value, functionScope);
-				FunctionCache[cacheKey] = functionResult;
+				//	var functionResult = Execute(callee.value, functionScope);
+				//	FunctionCache[cacheKey] = functionResult;
+				//	return functionResult;
+				//}
+				//else
+					return Execute(callee.value, functionScope);
 				#endregion
 
-				return functionResult;
-
+			case "Bool":
 			case "Int":
 			case "Str": return term.value.Value;
 

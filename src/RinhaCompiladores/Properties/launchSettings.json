@@ -2,7 +2,7 @@
   "profiles": {
     "RinhaCompiladores": {
       "commandName": "Project",
-      "commandLineArgs": "files/closure.json"
+      "commandLineArgs": "files/functions.json"
     },
     "Sem Parametros": {
       "commandName": "Project"
