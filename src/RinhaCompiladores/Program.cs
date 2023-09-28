@@ -86,6 +86,9 @@ public static partial class Program
 			case "Int":
 			case "Str": return term.value.Value;
 
+			case "File":
+				return Execute(term.expression, memory);
+
 			case "First":
 				var tupleFirst = Execute(term.value, memory);
 				return tupleFirst.Item1;
