@@ -52,13 +52,13 @@ public static partial class Program
 				throw new ApplicationException("invalid binary operator!");
 
 			case "Call":
-				var callee = Execute(term.callee, memory);
+				Tuple<dynamic, Dictionary<string, object>> callee = Execute(term.callee, memory);
 
 				var cachedFuncionParameter = new List<object>();
-				var functionScope = CreateFunctionScope(memory);
-				for (int i = 0; i < callee.parameters.Count; i++)
+				var functionScope = CreateFunctionScope(callee.Item2);
+				for (int i = 0; i < callee.Item1.parameters.Count; i++)
 				{
-					var paramName = callee.parameters[i].text.Value;
+					var paramName = callee.Item1.parameters[i].text.Value;
 					var paramValue = Execute(term.arguments[i], memory);
 					cachedFuncionParameter.Add(paramValue);
 
@@ -67,19 +67,19 @@ public static partial class Program
 
 				#region Cache do resultado da função usando o conceito de Dynamic Programming (Programação Dinâmica)
 				// Cache é desativado para funções anônimas
-				//if (term.callee.text != null)
-				//{
-				//	var cacheKey = $"{term.callee.text.Value}|{string.Join(",", cachedFuncionParameter.ToArray())}";
-				//	var cachedFuncion = FunctionCache.ContainsKey(cacheKey) ? FunctionCache[cacheKey] : null;
-				//	if (cachedFuncion != null)
-				//		return cachedFuncion;
+				if (term.callee.text != null)
+				{
+					var cacheKey = $"{term.callee.text.Value}|{string.Join(",", cachedFuncionParameter.ToArray())}";
+					var cachedFuncion = FunctionCache.ContainsKey(cacheKey) ? FunctionCache[cacheKey] : null;
+					if (cachedFuncion != null)
+						return cachedFuncion;
 
-				//	var functionResult = Execute(callee.value, functionScope);
-				//	FunctionCache[cacheKey] = functionResult;
-				//	return functionResult;
-				//}
-				//else
-					return Execute(callee.value, functionScope);
+					var functionResult = Execute(callee.Item1.value, functionScope);
+					FunctionCache[cacheKey] = functionResult;
+					return functionResult;
+				}
+				else
+					return Execute(callee.Item1.value, functionScope);
 				#endregion
 
 			case "Bool":
@@ -94,7 +94,7 @@ public static partial class Program
 				return tupleFirst.Item1;
 
 			case "Function":
-				return term; // declaration only
+				return new Tuple<dynamic, Dictionary<string, object>>(term, memory); // function + scope
 
 			case "If":
 				var condition = Execute(term.condition, memory);
@@ -104,7 +104,8 @@ public static partial class Program
 					return Execute(term.otherwise, memory);
 
 			case "Let":
-				memory[term.name.text.Value] = Execute(term.value, memory);
+				var letReturn = Execute(term.value, memory);
+				memory[term.name.text.Value] = letReturn;
 				return Execute(term.next, memory);
 
 			case "Print":
