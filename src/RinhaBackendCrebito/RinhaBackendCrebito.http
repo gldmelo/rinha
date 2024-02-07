@@ -1,0 +1,11 @@
+@RinhaBackendCrebito_HostAddress = http://localhost:5258
+
+GET {{RinhaBackendCrebito_HostAddress}}/todos/
+Accept: application/json
+
+###
+
+GET {{RinhaBackendCrebito_HostAddress}}/todos/1
+Accept: application/json
+
+###

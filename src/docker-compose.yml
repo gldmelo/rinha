@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  rinhabackendcrebito:
+    image: ${DOCKER_REGISTRY-}rinhabackendcrebito
+    build:
+      context: .
+      dockerfile: RinhaBackendCrebito/Dockerfile
