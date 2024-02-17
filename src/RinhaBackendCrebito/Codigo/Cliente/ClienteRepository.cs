@@ -22,7 +22,7 @@ namespace RinhaBackendCrebito.Codigo.Cliente
                 await connection.OpenAsync();
                 await using var saldoCommand = new NpgsqlCommand("SELECT saldo as total, now() as data_extrato, limite FROM clientes WHERE id = @clienteid", connection);
                 saldoCommand.Parameters.Add("@clienteid", NpgsqlDbType.Integer);
-                await saldoCommand.PrepareAsync();
+                //await saldoCommand.PrepareAsync();
                 saldoCommand.Parameters[0].Value = id;
                 
                 await using var saldoDataReader = await saldoCommand.ExecuteReaderAsync();
@@ -37,7 +37,7 @@ namespace RinhaBackendCrebito.Codigo.Cliente
                 var transacoes = new List<Extrato.Transacao>();
                 await using var transacoesCommand = new NpgsqlCommand("SELECT valor, tipo, descricao, realizada_em FROM transacoes WHERE cliente_id = @clienteid ORDER BY realizada_em DESC LIMIT 10", connection);
                 transacoesCommand.Parameters.Add("@clienteid", NpgsqlDbType.Integer);
-                await transacoesCommand.PrepareAsync();
+                //await transacoesCommand.PrepareAsync();
                 transacoesCommand.Parameters[0].Value = id;
                 await using var transacoesDataReader = await transacoesCommand.ExecuteReaderAsync();
 
@@ -68,7 +68,7 @@ namespace RinhaBackendCrebito.Codigo.Cliente
                 TransacaoCommand.Parameters.Add("@clienteid_in", NpgsqlDbType.Integer);
                 TransacaoCommand.Parameters.Add("@valor_in", NpgsqlDbType.Integer);
                 TransacaoCommand.Parameters.Add("@descricao_in", NpgsqlDbType.Varchar);
-                await TransacaoCommand.PrepareAsync();
+                //await TransacaoCommand.PrepareAsync();
                 TransacaoCommand.Parameters[0].Value = id;
                 TransacaoCommand.Parameters[1].Value = transacaoRequest.valor;
                 TransacaoCommand.Parameters[2].Value = transacaoRequest.descricao;
