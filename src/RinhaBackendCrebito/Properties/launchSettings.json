@@ -3,7 +3,7 @@
     "http": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "clientes/6/extrato",
+      "launchUrl": "clientes/1/extrato",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
@@ -23,7 +23,7 @@
     "Docker": {
       "commandName": "Docker",
       "launchBrowser": true,
-      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/clientes/6/extrato",
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/clientes/1/extrato",
       "environmentVariables": {
         "ASPNETCORE_HTTP_PORTS": "8080"
       },

@@ -7,14 +7,14 @@ namespace RinhaBackendCrebito.Codigo.Extrato
         public Transacao[]? ultimas_transacoes { get; } = ultimas_transacoes;
     }
 
-    public readonly struct Saldo(int _total, DateTime _data_extrato, int _limite)
+    public class Saldo
     {
-        public int total { get; } = _total;
-        public DateTime data_extrato { get; } = _data_extrato;
-        public int limite { get; } = _limite;
+        public int total { get; set; }
+        public DateTime data_extrato { get; set; }
+        public int limite { get; set; }
     }
 
-    public struct Transacao()
+    public class Transacao()
     {
         public int valor { get; set; }
         public string tipo { get; set; }
@@ -22,11 +22,4 @@ namespace RinhaBackendCrebito.Codigo.Extrato
         public DateTime realizada_em { get; set; }
     }
 
-    public struct ExtratoRaw()
-    {
-        public int total { get; set; }
-        public DateTime data_extrato { get; set; }
-        public int limite { get; set; }
-        public string ultimas_transacoes { get; set; }
-    }
 }

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
 using RinhaBackendCrebito.Codigo;
 using RinhaBackendCrebito.Codigo.Cliente;
+using RinhaBackendCrebito.Codigo.Extrato;
 using RinhaBackendCrebito.Codigo.Transacao;
 
 var builder = WebApplication.CreateSlimBuilder(args);
@@ -16,6 +17,9 @@ builder.Services.AddSingleton(serviceProvider =>
     return new SqlConnectionFactory(connectionString);
 });
 
+builder.Services.AddScoped<IClienteService, ClienteService>();
+builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
+
 var slidingPolicy = "concurrency";
 builder.Services.AddRateLimiter(o =>
 {
@@ -27,37 +31,45 @@ builder.Services.AddRateLimiter(o =>
         options.QueueLimit = 30000;
     });
 });
+builder.Services.ConfigureHttpJsonOptions(options =>
+{
+    options.SerializerOptions.TypeInfoResolverChain.Insert(0, SourceGenerationContext.Default);
+});
 
 var app = builder.Build();
 
 app.UseRateLimiter();
 
-app.MapGet("/clientes/{id}/extrato", async ([FromServices] SqlConnectionFactory connectionFactory, int id) =>
+app.MapGet("/clientes/{id}/extrato", async ([FromServices] IClienteService clienteService, int id) =>
     {
-        return await new ClienteService(connectionFactory).ProcessarExtratoAsync(id);
+        return await clienteService.ProcessarExtratoAsync(id);
     })
     .RequireRateLimiting(slidingPolicy)
     .DisableRequestTimeout();
 
-app.MapPost("/clientes/{id}/transacoes", async (int id, [FromServices] SqlConnectionFactory connectionFactory, HttpContext context
-    /*[FromBody] TransacaoRequest transacao)*/ ) => 
+app.MapPost("/clientes/{id}/transacoes", async (int id, [FromServices] IClienteService clienteService, HttpContext context) => 
     {
         TransacaoRequest? transacao;
         try
         {
             transacao = await context.Request.ReadFromJsonAsync<TransacaoRequest>();
         }
-        catch (Exception)
+        catch (Exception ex)
         {
             return Results.UnprocessableEntity("Transação inválida");
         }
 
-        return await new ClienteService(connectionFactory).ProcessarTransacaoAsync(id, transacao!);
+        return await clienteService.ProcessarTransacaoAsync(id, transacao!);
     }).RequireRateLimiting(slidingPolicy)
       .DisableRequestTimeout();
 
 app.Run();
 
 [JsonSourceGenerationOptions(WriteIndented = true)]
+[JsonSerializable(typeof(Saldo))]
+[JsonSerializable(typeof(Transacao))]
+[JsonSerializable(typeof(TransacaoRequest))] 
+[JsonSerializable(typeof(TransacaoResponse))]
+[JsonSerializable(typeof(ExtratoResponse))]
 [JsonSerializable(typeof(RinhaBackendCrebito.Codigo.Extrato.Transacao[]))]
 internal partial class SourceGenerationContext : JsonSerializerContext { }
