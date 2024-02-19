@@ -8,10 +8,8 @@
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <PublishAot>true</PublishAot>
 	<PublishTrimmed>true</PublishTrimmed>
-	<TrimmerRemoveSymbols>true</TrimmerRemoveSymbols>
 	<EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
 	<PlatformTarget>x64</PlatformTarget>
-	<OptimizationPreference>Speed</OptimizationPreference>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

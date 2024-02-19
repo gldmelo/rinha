@@ -47,18 +47,8 @@ app.MapGet("/clientes/{id}/extrato", async ([FromServices] IClienteService clien
     .RequireRateLimiting(slidingPolicy)
     .DisableRequestTimeout();
 
-app.MapPost("/clientes/{id}/transacoes", async (int id, [FromServices] IClienteService clienteService, HttpContext context) => 
+app.MapPost("/clientes/{id}/transacoes", async (int id, [FromServices] IClienteService clienteService, [FromBody] TransacaoRequest transacao) => 
     {
-        TransacaoRequest? transacao;
-        try
-        {
-            transacao = await context.Request.ReadFromJsonAsync<TransacaoRequest>();
-        }
-        catch (Exception ex)
-        {
-            return Results.UnprocessableEntity();
-        }
-
         return await clienteService.ProcessarTransacaoAsync(id, transacao!);
     }).RequireRateLimiting(slidingPolicy)
       .DisableRequestTimeout();
