@@ -13,7 +13,7 @@ namespace RinhaBackendCrebito.Codigo.Cliente
         public async Task<IResult> ProcessarExtratoAsync(int id)
         {
             if (IsClienteInvalido(id))
-                return Results.NotFound("Cliente não encontrado.");
+                return Results.NotFound();
             
             return await clienteRepository.ProcessarExtratoAsync(id);
         }
@@ -21,10 +21,10 @@ namespace RinhaBackendCrebito.Codigo.Cliente
         public async Task<IResult> ProcessarTransacaoAsync(int id, TransacaoRequest transacaoRequest)
         {
             if (IsClienteInvalido(id))
-                return Results.NotFound("Cliente não encontrado.");
+                return Results.NotFound();
 
             if (IsTransacaoInvalida(transacaoRequest))
-                return Results.UnprocessableEntity("Transação inválida");
+                return Results.UnprocessableEntity();
             
             return await clienteRepository.ProcessarTransacaoAsync(id, transacaoRequest);
         }

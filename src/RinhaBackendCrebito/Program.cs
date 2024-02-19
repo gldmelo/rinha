@@ -56,7 +56,7 @@ app.MapPost("/clientes/{id}/transacoes", async (int id, [FromServices] IClienteS
         }
         catch (Exception ex)
         {
-            return Results.UnprocessableEntity("Transação inválida");
+            return Results.UnprocessableEntity();
         }
 
         return await clienteService.ProcessarTransacaoAsync(id, transacao!);
@@ -71,5 +71,5 @@ app.Run();
 [JsonSerializable(typeof(TransacaoRequest))] 
 [JsonSerializable(typeof(TransacaoResponse))]
 [JsonSerializable(typeof(ExtratoResponse))]
-[JsonSerializable(typeof(RinhaBackendCrebito.Codigo.Extrato.Transacao[]))]
+[JsonSerializable(typeof(Transacao[]))]
 internal partial class SourceGenerationContext : JsonSerializerContext { }

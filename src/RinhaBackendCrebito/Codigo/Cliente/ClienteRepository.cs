@@ -77,7 +77,7 @@ namespace RinhaBackendCrebito.Codigo.Cliente
                 while (await transacaoDataReader.ReadAsync())
                 {
                     if(await transacaoDataReader.IsDBNullAsync(0))
-                        return Results.UnprocessableEntity("Transação inválida");
+                        return Results.UnprocessableEntity();
                     
                     transacaoResponse.saldo = transacaoDataReader.GetInt32(0);
                 }
