@@ -1,0 +1,16 @@
+{
+  "profiles": {
+    "dotnet_worker": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development"
+      },
+      "dotnetRunMessages": true,
+      "nativeDebugging": true
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker"
+    }
+  },
+  "$schema": "https://json.schemastore.org/launchsettings.json"
+}
