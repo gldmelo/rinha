@@ -1,8 +1,7 @@
 ﻿using System.Net;
-using System.Net.Http.Json;
 using System.Text.Json;
 
-namespace BackgroundWorker.Codigo
+namespace RinhaBackend2025.Codigo.Worker
 {
 	/// <summary>
 	/// Executa as operações de pagamento contra o PaymentProcessor.
@@ -15,10 +14,11 @@ namespace BackgroundWorker.Codigo
 
 		private readonly HttpClient httpClient = new()
 		{
-			BaseAddress = new Uri(baseAdress)
+			BaseAddress = new Uri(baseAdress), 
+			Timeout = TimeSpan.FromSeconds(1)
 		};
 
-		public async ValueTask<HttpStatusCode> LancarPagamentoPaymentProcessor(PaymentRequest paymentsRequest)
+		public async Task<HttpStatusCode> LancarPagamentoPaymentProcessor(WorkerPaymentRequest paymentsRequest)
 		{
 			var json = new PaymentProcessorRequest
 			{

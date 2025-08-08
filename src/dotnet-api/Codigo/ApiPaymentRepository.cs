@@ -8,7 +8,7 @@ namespace RinhaBackend2025.Codigo
 		{
 			using var conn = sqlConnectionFactory.Create();
 			await conn.OpenAsync();
-			await using var comm = new NpgsqlCommand("SELECT payment_processor, COUNT(*) AS total_requests, SUM(amount) AS total_amount FROM payments WHERE requested_at BETWEEN @from AND @to GROUP BY payment_processor", conn);
+			await using var comm = new NpgsqlCommand("SELECT payment_processor, COUNT(*) AS total_requests, COALESCE(SUM(amount),0) AS total_amount FROM payments WHERE requested_at BETWEEN @from AND @to GROUP BY payment_processor", conn);
 			comm.Parameters.AddWithValue("from", from ?? DateTime.MinValue);
 			comm.Parameters.AddWithValue("to", to ?? DateTime.MaxValue);
 			var response = new PaymentSummaryResponse();

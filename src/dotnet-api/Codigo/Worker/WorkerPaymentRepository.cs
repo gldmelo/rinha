@@ -1,8 +1,8 @@
 ﻿using Npgsql;
 
-namespace BackgroundWorker.Codigo
+namespace RinhaBackend2025.Codigo.Worker
 {
-	public class PaymentRepository(SqlConnectionFactory sqlConnectionFactory)
+	public class WorkerPaymentRepository(SqlConnectionFactory sqlConnectionFactory)
 	{
 		public async Task SalvarPagamento(PaymentRequestStore payment)
 		{

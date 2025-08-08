@@ -1,8 +1,8 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace BackgroundWorker.Codigo
+namespace RinhaBackend2025.Codigo.Worker
 {
-	public class PaymentRequest
+	public class WorkerPaymentRequest
 	{
 		[JsonPropertyName("correlationId")]
 		public Guid CorrelationId { get; set; } = Guid.Empty;
