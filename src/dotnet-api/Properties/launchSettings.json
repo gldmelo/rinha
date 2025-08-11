@@ -7,7 +7,8 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "UrlPagamentoDefault": "http://localhost:8001",
-        "UrlPagamentoFallback": "http://localhost:8002"
+        "UrlPagamentoFallback": "http://localhost:8002",
+        "UseWorker": "true"
       },
       "dotnetRunMessages": true,
       "applicationUrl": "http://localhost:5186"

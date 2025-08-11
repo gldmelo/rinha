@@ -1,11 +1,8 @@
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Mvc;
-//using Microsoft.AspNetCore.RateLimiting;
 using RinhaBackend2025.Codigo;
 using RinhaBackend2025.Codigo.Worker;
 using StackExchange.Redis;
-
-const string redisFila = "rinha";
 
 #region DI
 var builder = WebApplication.CreateSlimBuilder(args);
@@ -22,44 +19,33 @@ builder.Services.AddSingleton(serviceProvider =>
 	var connectionString = Environment.GetEnvironmentVariable("ConnectionString") ?? configuration.GetConnectionString("DefaultConfiguration") ?? throw new ApplicationException("Connection String não foi informada");
 	return new SqlConnectionFactory(connectionString);
 });
-builder.Services.AddScoped<ApiPaymentRepository>();
-builder.Services.AddScoped<PaymentService>();
-
-builder.Services.AddSingleton<WorkerPaymentRepository>();
-builder.Services.AddSingleton<WorkerPaymentService>(serviceProvider =>
-{
-	var urlDefaultPaymentProcessor = Environment.GetEnvironmentVariable("PaymentProcessorDefaultUrl") ?? "http://localhost:8001";
-	var urlFallbackPaymentProcessor = Environment.GetEnvironmentVariable("PaymentProcessorFallbackUrl") ?? "http://localhost:8002";
-
-	var defaultPaymentProcessor = new PaymentProcessorClient(urlDefaultPaymentProcessor, 0.05m);
-	var fallbackPaymentProcessor = new PaymentProcessorClient(urlFallbackPaymentProcessor, 0.15m);
-	var paymentRepository = serviceProvider.GetRequiredService<WorkerPaymentRepository>();
-
-	return new WorkerPaymentService(defaultPaymentProcessor, fallbackPaymentProcessor, paymentRepository);
-});
-
 builder.Services.AddSingleton<IDatabase>(cfg =>
 {
 	var redisServer = Environment.GetEnvironmentVariable("RedisServer") ?? "localhost:6379";
 	return ConnectionMultiplexer.Connect(redisServer).GetDatabase();
 });
+builder.Services.AddSingleton<PaymentRepository>();
+builder.Services.AddSingleton<PaymentService>(serviceProvider =>
+{
+	var redis = serviceProvider.GetRequiredService<IDatabase>();
+	var urlDefaultPaymentProcessor = Environment.GetEnvironmentVariable("PaymentProcessorDefaultUrl") ?? "http://localhost:8001";
+	var urlFallbackPaymentProcessor = Environment.GetEnvironmentVariable("PaymentProcessorFallbackUrl") ?? "http://localhost:8002";
 
-builder.Services.AddHostedService<WorkerPaymentBackgroundService>();
+	var defaultPaymentProcessor = new PaymentProcessorClient(urlDefaultPaymentProcessor, 0.05m);
+	var fallbackPaymentProcessor = new PaymentProcessorClient(urlFallbackPaymentProcessor, 0.15m);
 
-//var slidingPolicy = "concurrency";
-//builder.Services.AddRateLimiter(o =>
+	var paymentRepository = serviceProvider.GetRequiredService<PaymentRepository>();
+
+	return new PaymentService(redis, defaultPaymentProcessor, fallbackPaymentProcessor, paymentRepository);
+});
+
+
+//if (Environment.GetEnvironmentVariable("UseWorker") == "true")
 //{
-//	o.RejectionStatusCode = 429;
-//	o.AddConcurrencyLimiter(policyName: slidingPolicy, options =>
-//	{
-//		options.PermitLimit = 1;
-//		options.QueueProcessingOrder = System.Threading.RateLimiting.QueueProcessingOrder.OldestFirst;
-//		options.QueueLimit = 30000;
-//	});
-//});
+	builder.Services.AddHostedService<WorkerPaymentBackgroundService>();
+//}
 
 var app = builder.Build();
-//app.UseRateLimiter();
 
 #endregion
 
@@ -67,17 +53,14 @@ var app = builder.Build();
 /// <summary>
 /// Recebe um pagamento e coloca na fila para processamento.
 /// </summary>
-app.MapPost("/payments", static async (HttpRequest request, IDatabase redis) =>
+app.MapPost("/payments", static async ([FromBody] WorkerPaymentRequest paymentRequest, IDatabase redis, PaymentService paymentService) =>
 {
-	using var reader = new StreamReader(request.Body);
-	var rawBody = await reader.ReadToEndAsync();
+	if (!await paymentService.TryAddPagamentoAsync(paymentRequest))
+		return Results.UnprocessableEntity();
 
-	// Coloca o pagamento na fila do Redis e retorna OK o mais rápido possível
-	await redis.ListRightPushAsync(redisFila, rawBody);
 	return Results.Ok();
-});
-//.RequireRateLimiting(slidingPolicy)
-//.DisableRequestTimeout();
+})
+.DisableRequestTimeout();
 
 /// <summary>
 /// Retorna o resumo dos pagamentos processados.
@@ -85,14 +68,14 @@ app.MapPost("/payments", static async (HttpRequest request, IDatabase redis) =>
 app.MapGet("/payments-summary", static async ([FromServices] PaymentService paymentService, DateTime? from, DateTime? to) =>
 {
 	var response = await paymentService.ObterResumoPagamentosAsync(from, to);
-	//Thread.Sleep(1000); // Simula um processamento mais demorado
 	return Results.Json(response);
-});
+})
+.DisableRequestTimeout();
 
 /// <summary>
 /// Limpa os dados de pagamentos
 /// </summary>
-app.MapPost("/admin/purge-payments", static async (ApiPaymentRepository paymentRepository) =>
+app.MapPost("/admin/purge-payments", static async (PaymentRepository paymentRepository) =>
 {
 	await paymentRepository.LimpezaDados();
 	return Results.Ok();

@@ -1,8 +1,9 @@
 ﻿using Npgsql;
+using RinhaBackend2025.Codigo.Worker;
 
 namespace RinhaBackend2025.Codigo
 {
-	public class ApiPaymentRepository(SqlConnectionFactory sqlConnectionFactory)
+	public class PaymentRepository(SqlConnectionFactory sqlConnectionFactory)
 	{
 		public async Task<PaymentSummaryResponse> ObterResumoPagamentos(DateTime? from, DateTime? to)
 		{
@@ -26,6 +27,30 @@ namespace RinhaBackend2025.Codigo
 				}
 			}
 			return response;
+		}
+
+		public async Task SalvarPagamento(PaymentRequestStore payment)
+		{
+			using var conn = sqlConnectionFactory.Create();
+			await conn.OpenAsync();
+			await using var comm = new NpgsqlCommand("INSERT INTO payments (correlationId, amount, requested_at, payment_processor) VALUES (@correlationId, @amount, @requested_at, @payment_processor)", conn);
+			comm.Parameters.AddWithValue("correlationId", payment.CorrelationId);
+			comm.Parameters.AddWithValue("amount", payment.Amount);
+			comm.Parameters.AddWithValue("requested_at", payment.RequestedAt);
+			comm.Parameters.AddWithValue("payment_processor", payment.PaymentProcessor);
+
+			await comm.ExecuteNonQueryAsync();
+		}
+
+		public async Task<bool> ContemRegistro(Guid correlationId)
+		{
+			using var conn = sqlConnectionFactory.Create();
+			await conn.OpenAsync();
+			using var comm = new NpgsqlCommand("SELECT COUNT(*) FROM payments where correlationId = @correlationId", conn);
+			comm.Parameters.AddWithValue("correlationId", correlationId);
+			var count = (long)await comm.ExecuteScalarAsync();
+
+			return count > 0;
 		}
 
 		public async Task LimpezaDados()

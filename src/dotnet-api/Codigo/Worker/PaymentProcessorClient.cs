@@ -15,16 +15,16 @@ namespace RinhaBackend2025.Codigo.Worker
 		private readonly HttpClient httpClient = new()
 		{
 			BaseAddress = new Uri(baseAdress), 
-			Timeout = TimeSpan.FromSeconds(1)
+			Timeout = TimeSpan.FromMilliseconds(200)
 		};
 
-		public async Task<HttpStatusCode> LancarPagamentoPaymentProcessor(WorkerPaymentRequest paymentsRequest)
+		public async Task<HttpStatusCode> LancarPagamentoPaymentProcessor(WorkerPaymentRequest paymentsRequest, DateTime paymentTime)
 		{
 			var json = new PaymentProcessorRequest
 			{
 				CorrelationId = paymentsRequest.CorrelationId,
 				Amount = paymentsRequest.Amount,
-				RequestedAt = DateTime.UtcNow
+				RequestedAt = paymentTime
 			};
 
 			var jsonContent = new StringContent(
