@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "RinhaCompiladores": {
+      "commandName": "Project",
+      "commandLineArgs": "files/precedence.json"
+    },
+    "Sem Parametros": {
+      "commandName": "Project"
+    }
+  }
+}

@@ -1,0 +1,380 @@
+{
+    "expression": {
+        "kind": "Let",
+        "location": {
+            "end": 214,
+            "filename": "pow.rinha",
+            "start": 0
+        },
+        "name": {
+            "location": {
+                "end": 7,
+                "filename": "pow.rinha",
+                "start": 4
+            },
+            "text": "pow"
+        },
+        "next": {
+            "kind": "Let",
+            "location": {
+                "end": 214,
+                "filename": "pow.rinha",
+                "start": 86
+            },
+            "name": {
+                "location": {
+                    "end": 96,
+                    "filename": "pow.rinha",
+                    "start": 90
+                },
+                "text": "decpow"
+            },
+            "next": {
+                "kind": "Let",
+                "location": {
+                    "end": 214,
+                    "filename": "pow.rinha",
+                    "start": 176
+                },
+                "name": {
+                    "location": {
+                        "end": 186,
+                        "filename": "pow.rinha",
+                        "start": 180
+                    },
+                    "text": "result"
+                },
+                "next": {
+                    "kind": "Print",
+                    "location": {
+                        "end": 214,
+                        "filename": "pow.rinha",
+                        "start": 201
+                    },
+                    "value": {
+                        "kind": "Var",
+                        "location": {
+                            "end": 213,
+                            "filename": "pow.rinha",
+                            "start": 207
+                        },
+                        "text": "result"
+                    }
+                },
+                "value": {
+                    "arguments": [
+                        {
+                            "kind": "Int",
+                            "location": {
+                                "end": 197,
+                                "filename": "pow.rinha",
+                                "start": 196
+                            },
+                            "value": 5
+                        }
+                    ],
+                    "callee": {
+                        "kind": "Var",
+                        "location": {
+                            "end": 195,
+                            "filename": "pow.rinha",
+                            "start": 189
+                        },
+                        "text": "decpow"
+                    },
+                    "kind": "Call",
+                    "location": {
+                        "end": 198,
+                        "filename": "pow.rinha",
+                        "start": 189
+                    }
+                }
+            },
+            "value": {
+                "kind": "Function",
+                "location": {
+                    "end": 171,
+                    "filename": "pow.rinha",
+                    "start": 99
+                },
+                "parameters": [
+                    {
+                        "location": {
+                            "end": 104,
+                            "filename": "pow.rinha",
+                            "start": 103
+                        },
+                        "text": "n"
+                    }
+                ],
+                "value": {
+                    "condition": {
+                        "kind": "Binary",
+                        "lhs": {
+                            "kind": "Var",
+                            "location": {
+                                "end": 118,
+                                "filename": "pow.rinha",
+                                "start": 117
+                            },
+                            "text": "n"
+                        },
+                        "location": {
+                            "end": 122,
+                            "filename": "pow.rinha",
+                            "start": 117
+                        },
+                        "op": "Gt",
+                        "rhs": {
+                            "kind": "Int",
+                            "location": {
+                                "end": 122,
+                                "filename": "pow.rinha",
+                                "start": 121
+                            },
+                            "value": 1
+                        }
+                    },
+                    "kind": "If",
+                    "location": {
+                        "end": 168,
+                        "filename": "pow.rinha",
+                        "start": 114
+                    },
+                    "otherwise": {
+                        "kind": "Int",
+                        "location": {
+                            "end": 166,
+                            "filename": "pow.rinha",
+                            "start": 165
+                        },
+                        "value": 1
+                    },
+                    "then": {
+                        "arguments": [
+                            {
+                                "kind": "Var",
+                                "location": {
+                                    "end": 136,
+                                    "filename": "pow.rinha",
+                                    "start": 135
+                                },
+                                "text": "n"
+                            },
+                            {
+                                "arguments": [
+                                    {
+                                        "kind": "Binary",
+                                        "lhs": {
+                                            "kind": "Var",
+                                            "location": {
+                                                "end": 146,
+                                                "filename": "pow.rinha",
+                                                "start": 145
+                                            },
+                                            "text": "n"
+                                        },
+                                        "location": {
+                                            "end": 150,
+                                            "filename": "pow.rinha",
+                                            "start": 145
+                                        },
+                                        "op": "Sub",
+                                        "rhs": {
+                                            "kind": "Int",
+                                            "location": {
+                                                "end": 150,
+                                                "filename": "pow.rinha",
+                                                "start": 149
+                                            },
+                                            "value": 1
+                                        }
+                                    }
+                                ],
+                                "callee": {
+                                    "kind": "Var",
+                                    "location": {
+                                        "end": 144,
+                                        "filename": "pow.rinha",
+                                        "start": 138
+                                    },
+                                    "text": "decpow"
+                                },
+                                "kind": "Call",
+                                "location": {
+                                    "end": 151,
+                                    "filename": "pow.rinha",
+                                    "start": 138
+                                }
+                            }
+                        ],
+                        "callee": {
+                            "kind": "Var",
+                            "location": {
+                                "end": 134,
+                                "filename": "pow.rinha",
+                                "start": 131
+                            },
+                            "text": "pow"
+                        },
+                        "kind": "Call",
+                        "location": {
+                            "end": 152,
+                            "filename": "pow.rinha",
+                            "start": 131
+                        }
+                    }
+                }
+            }
+        },
+        "value": {
+            "kind": "Function",
+            "location": {
+                "end": 81,
+                "filename": "pow.rinha",
+                "start": 10
+            },
+            "parameters": [
+                {
+                    "location": {
+                        "end": 15,
+                        "filename": "pow.rinha",
+                        "start": 14
+                    },
+                    "text": "a"
+                },
+                {
+                    "location": {
+                        "end": 18,
+                        "filename": "pow.rinha",
+                        "start": 17
+                    },
+                    "text": "b"
+                }
+            ],
+            "value": {
+                "condition": {
+                    "kind": "Binary",
+                    "lhs": {
+                        "kind": "Var",
+                        "location": {
+                            "end": 32,
+                            "filename": "pow.rinha",
+                            "start": 31
+                        },
+                        "text": "b"
+                    },
+                    "location": {
+                        "end": 36,
+                        "filename": "pow.rinha",
+                        "start": 31
+                    },
+                    "op": "Gt",
+                    "rhs": {
+                        "kind": "Int",
+                        "location": {
+                            "end": 36,
+                            "filename": "pow.rinha",
+                            "start": 35
+                        },
+                        "value": 0
+                    }
+                },
+                "kind": "If",
+                "location": {
+                    "end": 78,
+                    "filename": "pow.rinha",
+                    "start": 28
+                },
+                "otherwise": {
+                    "kind": "Int",
+                    "location": {
+                        "end": 76,
+                        "filename": "pow.rinha",
+                        "start": 75
+                    },
+                    "value": 1
+                },
+                "then": {
+                    "kind": "Binary",
+                    "lhs": {
+                        "kind": "Var",
+                        "location": {
+                            "end": 46,
+                            "filename": "pow.rinha",
+                            "start": 45
+                        },
+                        "text": "a"
+                    },
+                    "location": {
+                        "end": 62,
+                        "filename": "pow.rinha",
+                        "start": 45
+                    },
+                    "op": "Mul",
+                    "rhs": {
+                        "arguments": [
+                            {
+                                "kind": "Var",
+                                "location": {
+                                    "end": 54,
+                                    "filename": "pow.rinha",
+                                    "start": 53
+                                },
+                                "text": "a"
+                            },
+                            {
+                                "kind": "Binary",
+                                "lhs": {
+                                    "kind": "Var",
+                                    "location": {
+                                        "end": 57,
+                                        "filename": "pow.rinha",
+                                        "start": 56
+                                    },
+                                    "text": "b"
+                                },
+                                "location": {
+                                    "end": 61,
+                                    "filename": "pow.rinha",
+                                    "start": 56
+                                },
+                                "op": "Sub",
+                                "rhs": {
+                                    "kind": "Int",
+                                    "location": {
+                                        "end": 61,
+                                        "filename": "pow.rinha",
+                                        "start": 60
+                                    },
+                                    "value": 1
+                                }
+                            }
+                        ],
+                        "callee": {
+                            "kind": "Var",
+                            "location": {
+                                "end": 52,
+                                "filename": "pow.rinha",
+                                "start": 49
+                            },
+                            "text": "pow"
+                        },
+                        "kind": "Call",
+                        "location": {
+                            "end": 62,
+                            "filename": "pow.rinha",
+                            "start": 49
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "location": {
+        "end": 214,
+        "filename": "pow.rinha",
+        "start": 0
+    },
+    "name": "pow.rinha"
+}
